@@ -1,5 +1,5 @@
 {
-    "name": "tjall/pmt-php",
+    "name": "tjallingf/pmt-php",
     "type": "library",
     "autoload": {
         "psr-4": {
