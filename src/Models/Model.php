@@ -1,12 +1,16 @@
 <?php
     namespace Tjall\Pmt\Models;
 
+    use DateTime;
+    use DateTimeZone;
     use Tjall\Pmt\Lib;
 
     abstract class Model {
         public array $data = [];
+        public array $options;
 
-        public function __construct(array $input) {
+        public function __construct(array $input, array $options = []) {
+            $this->options = $options;
             $this->data = $this->parse($input);
         }
 
@@ -33,11 +37,11 @@
                 }
 
                 if($flags === static::TYPE_DATE) {
-                    $value = date('Y-m-d', strtotime($value));
+                    $value = $this->convertToDate($value, 'Y-m-d');
                 } else if($flags === static::TYPE_DATETIME) {
-                    $value = date(DATE_ATOM, strtotime($value));
+                    $value = $this->convertToDate($value, DATE_ATOM);
                 } else if($flags === static::TYPE_DATETIME_OR_NULL && !is_null($value)) {
-                    $value = date(DATE_ATOM, strtotime($value));
+                    $value = $this->convertToDate($value, DATE_ATOM);
                 } else if($flags === static::TYPE_BOOL) {
                     $value = boolval($value);
                 } else if($flags === static::TYPE_STRING) {
@@ -50,6 +54,15 @@
             }
 
             return $data;
+        }
+
+        protected function convertToDate($value, string $format): string {
+            $dt = new DateTime($value, @$this->options['from_timezone']);
+
+            if(@$this->options['to_timezone'] instanceof DateTimeZone)
+                $dt->setTimezone($this->options['to_timezone']);
+                
+            return $dt->format($format);
         }
 
         protected function callMethod(string $method, array $args): mixed {

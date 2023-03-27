@@ -1,7 +1,8 @@
 <?php 
     namespace Tjall\Pmt\Controllers;
 
-    use Tjall\Pmt\Controllers\Controller;
+use DateTimeZone;
+use Tjall\Pmt\Controllers\Controller;
     use Tjall\Pmt\Lib;
     use Tjall\Pmt\Models\ShiftModel;
 
@@ -29,6 +30,13 @@
             });
 
             return $this->formatMultiple($items);
+        }
+        
+        protected function getModelOptions(array $input): array {
+            return [
+                'from_timezone' => new DateTimeZone('Europe/Amsterdam'),
+                'to_timezone' => new DateTimeZone('UTC')
+            ];
         }
     }
 ?>

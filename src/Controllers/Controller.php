@@ -12,6 +12,10 @@
             $this->session = $session;
         }
 
+        protected function getModelOptions(array $input): array {
+            return [];
+        }
+
         public function formatMultiple(array $input): array {
             $data = [];
 
@@ -23,7 +27,7 @@
         }
 
         public function format(array $input): array {
-            return (new $this->model($input, $this))->toArray();
+            return (new $this->model($input, $this->getModelOptions($input)))->toArray();
         }
 
         public function request(string $method, string $url, array $options = []) {
