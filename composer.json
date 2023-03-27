@@ -1,0 +1,12 @@
+{
+    "name": "tjall/pmt-php",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Tjall\\Pmt\\": ["src/"]
+        }
+    },
+    "require": {
+        "guzzlehttp/guzzle": "^7.0"
+    }
+}
