@@ -1,8 +1,8 @@
 <?php 
     namespace Tjall\Pmt\Controllers;
 
-use DateTimeZone;
-use Tjall\Pmt\Controllers\Controller;
+    use DateTimeZone;
+    use Tjall\Pmt\Controllers\Controller;
     use Tjall\Pmt\Lib;
     use Tjall\Pmt\Models\ShiftModel;
 
@@ -12,6 +12,7 @@ use Tjall\Pmt\Controllers\Controller;
         function index(int $from_date, int $to_date) {
             $res = $this->request('GET', 'shifts', [
                 'query' => [
+                    'account_id' => $this->session->accountId,
                     'date' => [
                         'gte' => date('Y-m-d', $from_date),
                         'lte' => date('Y-m-d', $to_date)
